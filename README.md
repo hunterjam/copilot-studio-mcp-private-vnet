@@ -107,7 +107,7 @@ Runs a Basic ACR, an internal Container Apps environment, one small replica, two
 
 ## Notes & gotchas
 
-- **US geography = two VNets** (eastus + westus) + peering. Single‑region geographies (e.g. Sweden `swedencentral`) need only one VNet — set `PpGeo`/regions in `00-variables.ps1` and leave `vNetTwo*` blank in the policy.
+- **Most geographies are two‑region** (US = eastus+westus, plus Europe, UK, **Sweden**, Canada, …) and need **two VNets + peering**. Only a geography that maps to a **single Azure region** needs one VNet. Don't assume from the name — confirm with `Get-EnvironmentRegion`, then set `PpGeo`/regions in `00-variables.ps1` and (for single‑region only) leave `vNetTwo*` blank in the policy.
 - **Subnet IP range is immutable after delegation** while in use — size subnets before delegating.
 - **Public‑endpoint calls break** inside a subnet‑delegated environment unless routed privately or via a NAT gateway.
 - MCP transport must be **Streamable HTTP** (Copilot Studio dropped SSE after Aug 2025).

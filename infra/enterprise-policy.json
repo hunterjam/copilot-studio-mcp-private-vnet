@@ -31,7 +31,7 @@
             "defaultValue": "",
             "type": "string",
             "metadata": {
-                "description": "Second VNet resource ID (leave blank for single-region geographies)."
+                "description": "Second VNet resource ID. Required for two-region geographies (most, incl. US, Europe, UK, Sweden). Leave blank only if the geography maps to a single Azure region."
             }
         }
     },

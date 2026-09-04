@@ -4,7 +4,7 @@
 
   These variables drive every other script. Names that must be globally unique are flagged.
   Defaults target the US Power Platform geography (unitedstates), which requires TWO paired
-  Azure regions (eastus + westus) and therefore two VNets. See README for single-region geos.
+  Azure regions (eastus + westus) and therefore two VNets. Most geographies are two-region; see README.
 #>
 
 # ---- Identity (REQUIRED) ----------------------------------------------------
@@ -13,7 +13,8 @@ $Global:TenantId       = "<YOUR_TENANT_ID>"            # for `az login --tenant`
 $Global:EnvironmentId  = "<POWER_PLATFORM_ENVIRONMENT_ID>"  # PPAC -> Environments -> (env) -> Environment ID
 
 # ---- Power Platform geography -> Azure region pair --------------------------
-# unitedstates = eastus + westus (two VNets). For single-region geos (e.g. sweden), see README.
+# unitedstates = eastus + westus (two VNets). Most geographies (incl. Europe, UK, Sweden) are two-region.
+# Only a geography that maps to a SINGLE Azure region needs one VNet -- confirm with Get-EnvironmentRegion.
 $Global:PpGeo   = "unitedstates"
 $Global:RegionA = "eastus"
 $Global:RegionB = "westus"

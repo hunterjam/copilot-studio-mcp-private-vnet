@@ -5,7 +5,9 @@ or explain it to a customer's Azure admin. Mirrors `infra/02`–`05`.
 
 > Prereqs: an Azure subscription in the **same Entra tenant** as Power Platform; **Network
 > Contributor + Owner/Contributor**; a Power Platform Admin to link the policy. US geography needs
-> **two** VNets (eastus + westus); single‑region geos need one.
+> **two** VNets (eastus + westus). Most Power Platform geographies (US, Europe, UK, **Sweden**, …) are
+> two‑region and need two VNets; only a geography that maps to a **single Azure region** needs one.
+> Confirm yours with `Get-EnvironmentRegion` before assuming.
 
 ## 1. Resource providers
 **Subscriptions → (your sub) → Settings → Resource providers** → register: `Microsoft.Network`,
@@ -29,7 +31,8 @@ or explain it to a customer's Azure admin. Mirrors `infra/02`–`05`.
 - Parameters: **policyName** `ep-mcp-vnet`; **powerplatformEnvironmentRegion** = the Power Platform
   geography token (e.g. `unitedstates` — *not* an Azure region); **vNetOneSubnetName** `snet-powerplatform`;
   **vNetOneResourceId** = the **VNet‑level** resource ID of `vnet-mcp-a` (no `/subnets/...`); **vNetTwo\***
-  = the same for `vnet-mcp-b`. (Leave VnetTwo blank only for single‑region geos.)
+  = the same for `vnet-mcp-b`. (Leave VnetTwo blank **only** if your geography maps to a single Azure
+  region — most, including Sweden/Europe/UK/US, are two‑region.)
 - **Review + create.**
 
 ## 5. Internal Container Apps environment + app
