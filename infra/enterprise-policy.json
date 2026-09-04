@@ -1,0 +1,67 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "policyName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the Enterprise Policy."
+            }
+        },
+        "powerplatformEnvironmentRegion": {
+            "type": "string",
+            "metadata": {
+                "description": "Power Platform geography token (e.g. unitedstates, europe, sweden, uk)."
+            }
+        },
+        "vNetOneSubnetName": {
+            "type": "string"
+        },
+        "vNetOneResourceId": {
+            "type": "string",
+            "metadata": {
+                "description": "Fully qualified VNet resource ID: /subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.Network/virtualNetworks/{vnet}"
+            }
+        },
+        "vNetTwoSubnetName": {
+            "defaultValue": "",
+            "type": "string"
+        },
+        "vNetTwoResourceId": {
+            "defaultValue": "",
+            "type": "string",
+            "metadata": {
+                "description": "Second VNet resource ID (leave blank for single-region geographies)."
+            }
+        }
+    },
+    "variables": {
+        "vNetOne": {
+            "id": "[parameters('vNetOneResourceId')]",
+            "subnet": {
+                "name": "[parameters('vNetOneSubnetName')]"
+            }
+        },
+        "vNetTwo": {
+            "id": "[parameters('vNetTwoResourceId')]",
+            "subnet": {
+                "name": "[parameters('vNetTwoSubnetName')]"
+            }
+        },
+        "vNetTwoSupplied": "[and(not(empty(parameters('vNetTwoSubnetName'))), not(empty(parameters('vNetTwoResourceId'))))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.PowerPlatform/enterprisePolicies",
+            "apiVersion": "2020-10-30-preview",
+            "name": "[parameters('policyName')]",
+            "location": "[parameters('powerplatformEnvironmentRegion')]",
+            "kind": "NetworkInjection",
+            "properties": {
+                "networkInjection": {
+                    "virtualNetworks": "[if(variables('vNetTwoSupplied'), concat(array(variables('vNetOne')), array(variables('vNetTwo'))), array(variables('vNetOne')))]"
+                }
+            }
+        }
+    ]
+}

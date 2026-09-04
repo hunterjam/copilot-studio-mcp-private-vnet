@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build artifacts
+*.zip
+
+# Local rig state (may contain tenant-specific IDs — never commit)
+.rig-*
+RIG-STATE.md
+*.local.ps1
